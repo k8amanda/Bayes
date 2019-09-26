@@ -95,34 +95,6 @@ var hivPosTstNegColor = "url(#tstNegHivPosPat) #addd8e"
 var hivNegTstPosColor = "url(#tstPosHivNegPat) #810f7c";
 var hivNegTstNegColor = "url(#tstNegHivNegPat) #6baed6";
 
-// var backColor = "#DADADF";
-// var hivPosColor = "#ffeda0";
-// var hivNegColor = "#3182bd";
-// var tstPosColor = "#f03b20";
-// var tstNegColor = "#eff3ff"; 
-// var hivPosTstPosColor = "#fd8d3c";
-// var hivPosTstNegColor = "#addd8e"   
-// var hivNegTstPosColor = "#810f7c";
-// var hivNegTstNegColor = "#6baed6";
-
-// var numHivPos = document.getElementById('in1').value; //10;
-// var numHivNeg = 100 - numHivPos; //90;
-// var numHivPosTstPos = document.getElementById('in2').value / 100; //8;
-// var numHivPosTstNeg = 10 - numHivPosTstPos; //2;
-// var numHivNegTstPos = document.getElementById('in3').value; //9;
-// var numHivNegTstNeg = 100 - numHivNegTstPos; //81; 
-// var numTstPos = ((numHivPosTstPos * numHivPos) + (numHivNegTstPos * numHivNeg)) / 100; //17;
-// var numTstNeg = 100 - numTstPos; //83; 
-
-// var numHivPos = 10;
-// var numHivNeg = 90;
-// var numHivPosTstPos = 8;
-// var numHivPosTstNeg = 2;
-// var numHivNegTstPos = 9;
-// var numHivNegTstNeg = 81; 
-// var numTstPos = 17;
-// var numTstNeg = 83; 
-
 
 //new array layout function 
 var num_in_row = 10;
@@ -410,9 +382,6 @@ function draw(caseNum) {
                                             }
 
                                         } else if (caseNum == 10) {
-                                            // color_me(hivPosTstPosColor, hivNegTstPosColor, hivPosTstNegColor, hivPosTstNegColor, hivNegTstPosColor, hivNegTstPosColor, hivNegTstNegColor, numHPosRows, xColHivPos, numHPosX, yColHivPos, numHNegRows, numHNegX, numHivPosTstNeg, numHivPosTstPos, d.position.y, d.position.x);
-
-
                                             if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
                                                 return hivPosTstPosColor;
                                             } else if (numHPosX != 0) {
@@ -596,37 +565,6 @@ function draw(caseNum) {
                                         }
                                     })
             .attr('stroke', "#000000");
-}
-
-function color_me(color1, color2, color3, color4, color5, color6, color7, numHPosRows, xColHivPos, numHPosX, yColHivPos, numHNegRows, numHNegX, numHivPosTstNeg, numHivPosTstPos, yPos, xPos) {
-    if ((yPos < numHPosRows) & xPos < xColHivPos){
-            return color1;
-        } else if (numHPosX != 0) {
-            if ((xPos == xColHivPos) & (yPos < num_in_row - numHPosX)) {
-                return color2;
-            }  
-        }
-        if (numHivPosTstNeg != 0) {
-            var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-            var leftover = numHivPosTstNeg - (fullBlock * 10);
-            if (xPos < xColHivPos & yPos > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                return color3;
-            } else if (leftover != 0) {
-                if ((xPos == xColHivPos) & (yPos >= num_in_row - yColHivPos)) {
-                    return color4;
-                }
-            }
-        }
-        if ((yPos < numHNegRows) & xPos >= xColHivPos) {
-            return color5;
-        } else if (numHNegX != 0) {
-            if ((yPos <= numHNegRows) & (xPos >= xColHivPos) & (xPos < num_in_row - numHNegX - 1)) {
-                return color6;
-            }
-            else {
-                return color7;
-            }
-        }
 }
 
 function run() {
