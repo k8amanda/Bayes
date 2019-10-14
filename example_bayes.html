@@ -85,7 +85,7 @@
 //set numbers for pos/neg
 var backColor = "#eeeeee";
 var hivPosColor = "#ffeda0";
-var hivNegColor = "#c2e699"; //#9ecae1";
+var hivNegColor = "#c2e699";
 var tstPosColor = "url(#tstPosPat) #f03b20";
 var tstNegColor = "url(#tstNegPat) #eff3ff"; 
 var tstPosColorLeg = "url(#tstPosPatLeg) #f03b20";
@@ -95,7 +95,6 @@ var hivPosTstNegColor = "url(#tstNegHivPosPat) #addd8e"
 var hivNegTstPosColor = "url(#tstPosHivNegPat) #810f7c";
 var hivNegTstNegColor = "url(#tstNegHivNegPat) #6baed6";
 
-
 //new array layout function 
 var num_in_row = 10;
 var layout = d3_iconarray.layout().width(num_in_row);
@@ -104,7 +103,6 @@ var data = d3.range(0, 100, 1);
 var num_in_col = data.length / num_in_row;
 //array of grid positions and data 
 var grid = layout(data);
-//console.log(grid); 
 
 //box length/height 
 b_len_width = 30; 
@@ -129,44 +127,53 @@ function myFunction() {
     var tstPosChk = document.getElementById('tstPos').checked;
     var tstNegChk = document.getElementById('tstNeg').checked;
 
+    document.getElementById('checkboxes').style.marginLeft = width; 
+    document.getElementById('simple-example').innerHTML = "";
+
+    answers.stim = "interactive";
+    document.getElementById('hivPosLeg').fill = hivPosColor;
+    document.getElementById('hivNegLeg').fill = hivNegColor;
+    document.getElementById('tstPosLeg').fill = tstPosColorLeg;
+    document.getElementById('tstNegLeg').fill = tstNegColorLeg;  
+
     if(hivPosChk & !hivNegChk & !tstPosChk & !tstNegChk ) {
-        draw(1);
+        color_me(hivPosColor, backColor, hivPosColor, backColor, backColor, 1);
     } else if(!hivPosChk & hivNegChk & !tstPosChk & !tstNegChk ) {
-        draw(2);
+        color_me(backColor, hivNegColor, backColor, hivNegColor, hivNegColor, 1);
     } else if(hivPosChk & hivNegChk & !tstPosChk & !tstNegChk ) {
-        draw(3);
+        color_me(hivPosColor, hivNegColor, hivPosColor, hivNegColor, hivNegColor, 1);
     } else if(!hivPosChk & !hivNegChk & tstPosChk & !tstNegChk ) {
-        draw(4);
+        color_me(tstPosColor, tstPosColor, backColor, tstPosColor, backColor, 1);
     } else if(!hivPosChk & !hivNegChk & !tstPosChk & tstNegChk ) {
-        draw(5);
+        color_me(backColor, backColor, tstNegColor, backColor, tstNegColor, 1);
     } else if(!hivPosChk & !hivNegChk & tstPosChk & tstNegChk ) {
-        draw(6);
+        color_me(tstPosColor, tstPosColor, tstNegColor, tstPosColor, tstNegColor, 1);
     } else if (hivPosChk & !hivNegChk & tstPosChk & !tstNegChk ) {
-        draw(7);
+        color_me(hivPosTstPosColor, tstPosColor, hivPosColor, tstPosColor, backColor, 1);
     } else if (hivPosChk & !hivNegChk & tstPosChk & tstNegChk ) {
-        draw(8);
+        color_me(hivPosTstPosColor, tstPosColor, hivPosTstNegColor, tstPosColor, tstNegColor, 1);
     } else if (hivPosChk & !hivNegChk & !tstPosChk & tstNegChk ) {
-        draw(9);
+        color_me(hivPosColor, backColor, hivPosTstNegColor, backColor, tstNegColor, 1);
     } else if (hivPosChk & hivNegChk & tstPosChk & tstNegChk ) {
-        draw(10);
+        color_me(hivPosTstPosColor, hivNegTstPosColor, hivPosTstNegColor, hivNegTstPosColor, hivNegTstNegColor, 1);
     } else if (hivPosChk & hivNegChk & tstPosChk & !tstNegChk ) {
-        draw(11);
+        color_me(hivPosTstPosColor, tstPosColor, hivPosColor, hivNegTstPosColor, hivNegColor, 1);
     } else if (hivPosChk & hivNegChk & !tstPosChk & tstNegChk ) {
-        draw(12);
+        color_me(hivPosColor, hivNegColor, hivPosTstNegColor, hivNegColor, hivNegTstNegColor, 1);
     } else if (!hivPosChk & hivNegChk & !tstPosChk & tstNegChk ) {
-        draw(13);
+        color_me(backColor, hivNegColor, tstNegColor, hivNegColor, hivNegTstNegColor, 1);
     } else if (!hivPosChk & hivNegChk & tstPosChk & tstNegChk ) {
-        draw(14);
+        color_me(tstPosColor, hivNegTstPosColor, tstNegColor, hivNegTstPosColor, hivNegTstNegColor, 1);
     } else if (!hivPosChk & hivNegChk & tstPosChk & !tstNegChk ) {
-        draw(15);
-    } else {
-        draw(0); 
+        color_me(tstPosColor, hivNegTstPosColor, backColor, hivNegTstPosColor, hivNegColor, 1);
+    } else if (!hivPosChk & !hivNegChk & !tstPosChk & !tstNegChk) {
+       color_me(backColor, backColor, backColor, backColor, backColor, 0);
     }  
 }
 
 var answers = {}; 
 
-function draw(caseNum) {
+function color_me(color1, color2, color3, color4, color5, isZero) {
     var numHivPos = document.getElementById('in1').value;
     var numHivNeg = 100 - numHivPos;
     var numHivPosTstPos = Math.floor((document.getElementById('in2').value / 100) * numHivPos);
@@ -192,7 +199,6 @@ function draw(caseNum) {
     var numHNegRows = Math.floor(numHivNegTstPos / (num_in_row - xColHivPos));
     var numHNegX = numHivNegTstPos - (numHNegRows * (num_in_row - xColHivPos));
 
-    //d3 to draw the iconarray 
     var svg = d3.select('#simple-example')
             .append('svg')
                 .attr('width',width)
@@ -208,370 +214,45 @@ function draw(caseNum) {
             .attr('y', function(d){ return arrayScale(d.position.y) })
             .attr('width', b_len_width)
             .attr('height', b_len_width)
-            .attr('fill', function(d) { if (caseNum == 0) {
-                                            return backColor; 
-                                        } else if (caseNum == 1) {
-                                            if (d.position.x < xColHivPos) {
-                                                return hivPosColor;
-                                            } else if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                return hivPosColor;
-                                            } else {
-                                                return backColor; 
-                                            } 
-                                        } else if (caseNum == 2) {
-                                            if (d.position.x > xColHivPos) {
-                                                return hivNegColor;
-                                            } else if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - yColHivPos)) {
-                                                return hivNegColor;
-                                            } else {
-                                                return backColor;
-                                            }
-                                        } else if (caseNum == 3) {
-                                            if (d.position.x < xColHivPos) {
-                                                return hivPosColor;
-                                            } else if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                return hivPosColor;
-                                            } else {
-                                                return hivNegColor; 
-                                            }  
-                                        } else if (caseNum == 4) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return tstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return tstPosColor;
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return tstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return tstPosColor;
-                                                }
-                                                else {
-                                                    return backColor;
-                                                }
-                                            }
-                                        } else if (caseNum == 5) {
-                                            if ((d.position.y >= numHPosRows) & d.position.x < xColHivPos){
-                                                return tstNegColor;
-                                            } 
-                                            else if (yColHivPos != 0 & numHivPosTstNeg > ((num_in_row - numHPosRows) * xColHivPos)) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                    return tstNegColor;
-                                                }
-                                            }
-                                            if ((d.position.y > numHNegRows) & d.position.x >= xColHivPos) {
-                                                return tstNegColor;
-                                            } else if (numHNegX != 0) {
-                                                if (d.position.y == numHNegRows & (d.position.x >= xColHivPos + numHNegX)) {
-                                                    return tstNegColor;
-                                                }
-                                                else {
-                                                    return backColor;
-                                                }
-                                            }
-                                            else {
-                                                return backColor;
-                                            }
-                                        } else if (caseNum == 6) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return tstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return tstPosColor;
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return tstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return tstPosColor;
-                                                }
-                                                else {
-                                                   return tstNegColor;
-                                                }
-                                            }
-                                        } else if (caseNum == 7) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return hivPosTstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return tstPosColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return hivPosColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return hivPosColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return tstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return tstPosColor;
-                                                }
-                                                else {
-                                                    return backColor;
-                                                }
-                                            }
-
-                                        } else if (caseNum == 8) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return hivPosTstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return tstPosColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return hivPosTstNegColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return hivPosTstNegColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return tstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return tstPosColor;
-                                                }
-                                                else {
-                                                    return tstNegColor;
-                                                }
-                                            }
-
-                                        } else if (caseNum == 9) {
-                                           if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return hivPosColor;
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return hivPosTstNegColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return hivPosTstNegColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y > numHNegRows) & d.position.x >= xColHivPos) {
-                                                return tstNegColor;
-                                            } else if (numHNegX != 0) {
-                                                if (d.position.y == numHNegRows & (d.position.x >= xColHivPos + numHNegX)) {
-                                                    return tstNegColor;
-                                                }
-                                                else {
-                                                    return backColor;
-                                                }
-                                            }
-                                            else {
-                                                return backColor;
-                                            }
-
-                                        } else if (caseNum == 10) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return hivPosTstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return hivNegTstPosColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return hivPosTstNegColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return hivPosTstNegColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return hivNegTstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return hivNegTstPosColor;
-                                                }
-                                                else {
-                                                    return hivNegTstNegColor;
-                                                }
-                                            }                                            
-
-                                        } else if (caseNum == 11) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return hivPosTstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return tstPosColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return hivPosColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return hivPosColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return hivNegTstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return hivNegTstPosColor;
-                                                }
-                                                else {
-                                                    return hivNegColor;
-                                                }
-                                            }
-
-                                        } else if (caseNum == 12) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return hivPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return hivNegColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return hivPosTstNegColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return hivPosTstNegColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return hivNegColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return hivNegColor;
-                                                }
-                                                else {
-                                                    return hivNegTstNegColor;
-                                                }
-                                            }
-
-                                        } else if (caseNum == 13) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return backColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return hivNegColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return tstNegColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return tstNegColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return hivNegColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return hivNegColor;
-                                                }
-                                                else {
-                                                    return hivNegTstNegColor;
-                                                }
-                                            }
-
-
-                                        } else if (caseNum == 14) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return tstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return hivNegTstPosColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return tstNegColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return tstNegColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return hivNegTstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return hivNegTstPosColor;
-                                                }
-                                                else {
-                                                    return hivNegTstNegColor;
-                                                }
-                                            }
-
-
-                                        } else if (caseNum == 15) {
-                                            if ((d.position.y < numHPosRows) & d.position.x < xColHivPos){
-                                                return tstPosColor;
-                                            } else if (numHPosX != 0) {
-                                                if ((d.position.x == xColHivPos) & (d.position.y < num_in_row - numHPosX)) {
-                                                    return hivNegTstPosColor;
-                                                }  
-                                            }
-                                            if (numHivPosTstNeg != 0) {
-                                                var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
-                                                var leftover = numHivPosTstNeg - (fullBlock * 10);
-                                                if (d.position.x < xColHivPos & d.position.y > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
-                                                    return backColor;
-                                                } else if (leftover != 0) {
-                                                    if ((d.position.x == xColHivPos) & (d.position.y >= num_in_row - yColHivPos)) {
-                                                        return backColor;
-                                                    }
-                                                }
-                                            }
-                                            if ((d.position.y < numHNegRows) & d.position.x >= xColHivPos) {
-                                                return hivNegTstPosColor;
-                                            } else if (numHNegX != 0) {
-                                                if ((d.position.y <= numHNegRows) & (d.position.x >= xColHivPos) & (d.position.x < num_in_row - numHNegX - 1)) {
-                                                    return hivNegTstPosColor;
-                                                }
-                                                else {
-                                                    return hivNegColor;
-                                                }
-                                            }
-                                        }
-                                    })
+            .attr('fill', function(d) {
+                var xPos = d.position.x;
+                var yPos = d.position.y;
+                if (isZero == 0) {
+                    return backColor;
+                }
+                if ((yPos < numHPosRows) & xPos < xColHivPos){
+                        return color1;
+                    } else if (numHPosX != 0) {
+                        if ((xPos == xColHivPos) & (yPos < num_in_row - numHPosX)) {
+                            return color2;
+                        }  
+                    }
+                    if (numHivPosTstNeg != 0) {
+                        var fullBlock = Math.floor(numHivPosTstNeg / xColHivPos);
+                        var leftover = numHivPosTstNeg - (fullBlock * 10);
+                        if (xPos < xColHivPos & yPos > num_in_row - (Math.floor(numHivPosTstPos / xColHivPos))) {
+                            return color3;
+                        } else if (leftover != 0) {
+                            if ((xPos == xColHivPos) & (yPos >= num_in_row - yColHivPos)) {
+                                return color3;
+                            }
+                        }
+                    }
+                    if ((yPos < numHNegRows) & xPos >= xColHivPos) {
+                        return color4;
+                    } else if (numHNegX != 0) {
+                        if ((yPos <= numHNegRows) & (xPos >= xColHivPos) & (xPos < num_in_row - numHNegX - 1)) {
+                            return color4;
+                        }
+                        else {
+                            return color5;
+                        }
+                    }
+                })
             .attr('stroke', "#000000");
 }
 
-function run() {
-    myFunction();
-} 
-
-window.onload = run();
+window.onload = myFunction();
 
 function bayes_math() {
 	var sickPop = document.getElementById('in1').value/100;
@@ -584,7 +265,7 @@ function bayes_math() {
 	return sickPosTst;
 }
 
- function validate() {
+function validate() {
         var a1 = document.getElementById("ans1");
         var a2 = document.getElementById("ans2");  
         if (a1.value == "" || a2.value == "") {
@@ -602,12 +283,12 @@ function bayes_math() {
                 	question();
                 }
         } 
- }
+}
 
 function question() {
-	var ansText =  "<br>Imagine a group of 100 patients with similar lifestyles to this person. They take the disease test, and some of their results come back positive. How many of the patients with a positive test result are actually infected with this disease?<br><br>";//<br><input type="number" id="ans1"> out of <input type="number" id="ans2">.</p><input type="submit" value="Submit" onClick=validate()>';
+	var ansText =  "<br>Imagine a group of 100 patients with similar lifestyles to this person. They take the disease test, and some of their results come back positive. How many of the patients with a positive test result are actually infected with this disease?<br><br>";
 	document.getElementById('answers').innerHTML = ansText;
 	document.getElementById('ansForm').style.display = 'block';
 }
 
-</script>   
+</script>
